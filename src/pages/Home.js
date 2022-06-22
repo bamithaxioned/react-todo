@@ -4,15 +4,19 @@ import TodoLists from '../components/TodoLists';
 const Home = () => {
   const addTodoValue = 'Add Todo..';
   const updateTodoValue = 'Update Todo..';
+  const localStorageList = JSON.parse(localStorage.getItem('rc-todo-list')) || [];
   const [todo, setTodo] = useState('');
-  const [todoList, setTodoList] =  useState([]);
+  const [todoList, setTodoList] =  useState(localStorageList);
   const [submitBtn, setSubmitBtn] =  useState({
     value: addTodoValue,
     btnIsActive: false,
   });
-
   const [editTodoId, setEditTodoId] = useState('');
 
+  useEffect(() => {
+    localStorage.setItem('rc-todo-list', JSON.stringify(todoList));
+  }, [[todoList]])
+  
   // Delete todo
   const removeTodos = (id) => {
     // check if update mode is on
@@ -47,14 +51,18 @@ const Home = () => {
 
   // Completed Todo
   const handleCompleted = (id) => {
-    // console.log(id);
-    const completedTodoList = todoList.map(todos => {
-      if(todos.id === id) {
-        todos.completed = todos.completed ? false : true; //if completed is true make it false and vica versa
-      }
-      return todos;
-    });
-    setTodoList(completedTodoList);
+    // check if update mode is on
+    if(submitBtn.btnIsActive) {
+      alert('Please completed the updation process');
+    } else {
+      const completedTodoList = todoList.map(todos => {
+        if(todos.id === id) {
+          todos.completed = todos.completed ? false : true; //if completed is true make it false and vica versa
+        }
+        return todos;
+      });
+      setTodoList(completedTodoList);
+    }
   }
 
   // Add/Update todo on submit

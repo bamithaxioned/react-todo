@@ -20,7 +20,7 @@ const TodoLists = ({lists, removeTodos, editTodos, completedTodos}) => {
                   <h3>{list.todo}</h3>
                   <h3><a href="#FIXME" title='Edit' className='edit-btn' onClick={e => editTodos(list.id)}>Edit</a></h3>
                   <h3><a href="#FIXME" title='Remove' className='delete-btn' onClick={e => removeTodos(list.id)}>Remove</a></h3>
-                  <h4><input type="checkbox" name="" id="" onClick={e => completedTodos(list.id)} /></h4>
+                  <h4><input type="checkbox" checked={list.completed} onClick={e => completedTodos(list.id)} /></h4>
                 </li>
               )}
             </ul>
