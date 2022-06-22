@@ -12,7 +12,6 @@ const Home = () => {
   });
 
   const [editTodoId, setEditTodoId] = useState('');
-  const [isCompleted, setIsCompleted] = useState('');
 
   // Delete todo
   const removeTodos = (id) => {
@@ -27,7 +26,7 @@ const Home = () => {
 
   // Edit Todo
   const editTodos = (id) => {
-    const selectedTodo = todoList.filter(todos => todos.id == id);
+    const selectedTodo = todoList.filter(todos => todos.id === id);
     setTodo(selectedTodo[0].todo);
     setSubmitBtn({
       value: updateTodoValue,
