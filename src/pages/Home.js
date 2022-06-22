@@ -15,7 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     localStorage.setItem('rc-todo-list', JSON.stringify(todoList));
-  }, [[todoList]])
+  }, [todoList])
   
   // Delete todo
   const removeTodos = (id) => {
