@@ -2,63 +2,94 @@ import React, { useEffect, useState } from 'react';
 import TodoLists from '../components/TodoLists';
 
 const Home = () => {
-  const todoValue = 'Add Todo..';
+  const addTodoValue = 'Add Todo..';
   const updateTodoValue = 'Update Todo..';
   const [todo, setTodo] = useState('');
   const [todoList, setTodoList] =  useState([]);
   const [submitBtn, setSubmitBtn] =  useState({
-    value: todoValue,
+    value: addTodoValue,
     btnIsActive: false,
   });
 
   const [editTodoId, setEditTodoId] = useState('');
+  const [isCompleted, setIsCompleted] = useState('');
 
   // Delete todo
   const removeTodos = (id) => {
-    const list = todoList.filter(todos => todos.id !== id);
-    setTodoList(list);
+    // check if update mode is on
+    if(submitBtn.btnIsActive) {
+      alert('Please completed the updation process');
+    } else {
+      const list = todoList.filter(todos => todos.id !== id);
+      setTodoList(list);
+    }
   }
 
+  // Edit Todo
   const editTodos = (id) => {
     const selectedTodo = todoList.filter(todos => todos.id == id);
     setTodo(selectedTodo[0].todo);
     setSubmitBtn({
       value: updateTodoValue,
-      btnIsActive: true, 
+      btnIsActive: true,
     });
     setEditTodoId(id);
   }
 
-  const handleUpdate = () => {
-    const selectedTodo = todoList.find(todos => todos.id === editTodoId);
-    console.log(selectedTodo);
-  }
-
+  // Delete Todo
   const handleCancel = (e) => {
     e.preventDefault();
     setTodo('');
     setSubmitBtn({
-      value: todoValue,
+      value: addTodoValue,
       btnIsActive: false, 
     });
   }
 
+  // Completed Todo
+  const handleCompleted = (id) => {
+    // console.log(id);
+    const completedTodoList = todoList.map(todos => {
+      if(todos.id === id) {
+        todos.completed = todos.completed ? false : true; //if completed is true make it false and vica versa
+      }
+      return todos;
+    });
+    setTodoList(completedTodoList);
+  }
+
+  // Add/Update todo on submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add todos
-    const uniqueId = Date.now().toString(36) + Math.floor(Math.pow(10, 12) + Math.random() * 9*Math.pow(10, 12)).toString(36);
-    let todoValue = {
-      id: uniqueId,
-      todo: todo,
-    }
-    
-    if(todo) {
-      let tempArr = todoList;
-      tempArr.push(todoValue);
-      setTodoList(tempArr);
+    let currentSubmitBtn = e.target.querySelector('.submit-btn').value.trim();
+    // Add Todo
+    if(currentSubmitBtn === addTodoValue) {
+      const uniqueId = Date.now().toString(36) + Math.floor(Math.pow(10, 12) + Math.random() * 9*Math.pow(10, 12)).toString(36);
+      let todoValueList = {
+        id: uniqueId,
+        todo: todo,
+        completed: false,
+      }
+
+      if(todo) {
+        let tempArr = todoList;
+        tempArr.push(todoValueList);
+        setTodoList(tempArr);
+        setTodo('');
+      } else {
+        alert('Todo cannot be empty');
+      }
+    } else { //update todo
+      const updatedTodoList = todoList.map(todos => {
+        if(todos.id === editTodoId) { todos.todo = todo; }
+        return todos;
+      });
+      setTodoList(updatedTodoList);
       setTodo('');
-    } else {
-      alert('Todo cannot be empty');
+      setSubmitBtn({
+        value: addTodoValue,
+        btnIsActive: false,
+      });
     }
   }
 
@@ -71,16 +102,12 @@ const Home = () => {
               <label htmlFor=""></label>
               <input type="text" value={todo} placeholder='Add Todo...' onChange={e => setTodo(e.target.value)} name="todo" />
             </div>
-            {!submitBtn.btnIsActive && <input type="submit" value={submitBtn.value} className='submit-btn' />}
-            {submitBtn.btnIsActive && 
-            <>
-              <button onClick={e => handleUpdate(e)}>Update</button>
-              <button onClick={e => handleCancel(e)}>Cancel</button>
-            </>}
+            {<input type="submit" value={submitBtn.value} className='submit-btn' />}
+            {submitBtn.btnIsActive && <button onClick={e => handleCancel(e)}>Cancel</button> }
           </form>
         </div>
       </section>
-      <TodoLists lists={todoList} removeTodos={removeTodos} editTodos={editTodos} />
+      <TodoLists lists={todoList} removeTodos={removeTodos} editTodos={editTodos} completedTodos={handleCompleted} />
     </>
   )
 }

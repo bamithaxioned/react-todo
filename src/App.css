@@ -49,12 +49,13 @@ li { list-style: none; }
   display: flex;
 }
 
-.todolists h2, h3, h4 {
+.todolists h2, h3, h4, h5 {
   margin: 0;
   padding: 20px;
   border: 1px solid #000;
-  flex-basis: 25%;
+  flex-basis: 20%;
   text-align: center;
+  font-size: 18px;
 }
 
 .edit-btn { color: #1dae25; }

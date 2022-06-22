@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TodoLists = ({lists, removeTodos, editTodos}) => {
+const TodoLists = ({lists, removeTodos, editTodos, completedTodos}) => {
   return (
     <>
       <section className="list-data">
@@ -12,6 +12,7 @@ const TodoLists = ({lists, removeTodos, editTodos}) => {
                 <h3>Task Name</h3>
                 <h4>Edit</h4>
                 <h4>Remove</h4>
+                <h5>Completed</h5>
               </li>
               {lists.map((list, index) => 
                 <li key={index + 1} className='todolists'>
@@ -19,6 +20,7 @@ const TodoLists = ({lists, removeTodos, editTodos}) => {
                   <h3>{list.todo}</h3>
                   <h3><a href="#FIXME" title='Edit' className='edit-btn' onClick={e => editTodos(list.id)}>Edit</a></h3>
                   <h3><a href="#FIXME" title='Remove' className='delete-btn' onClick={e => removeTodos(list.id)}>Remove</a></h3>
+                  <h4><input type="checkbox" name="" id="" onClick={e => completedTodos(list.id)} /></h4>
                 </li>
               )}
             </ul>
