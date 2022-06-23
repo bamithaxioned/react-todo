@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 const List = ({completed}) => {
   const localStorageList = JSON.parse(localStorage.getItem('rc-todo-list')) || [];
-  const [list, setList] = useState(localStorageList);
+  const completedList = localStorageList.filter(list => list.completed === true);
+  // const [list, setList] = useState(localStorageList);
   
   return (
     <>
@@ -17,20 +17,23 @@ const List = ({completed}) => {
                 <h3>Task Name</h3>
                 {!completed ? <h5>Status</h5> : null}
               </li>
-              {localStorageList.map((list, index) => 
-                { return (completed && list.completed) ?
+              {
+                completed ? 
+                completedList.map((list, index) => 
                   <li key={index + 1} className='todolists'>
                     <h2>{index + 1}</h2>
                     <h3>{list.todo}</h3>
-                  </li>
+                  </li>     
+                )
                 :
+                localStorageList.map((list, index) => 
                   <li key={index + 1} className='todolists'>
                     <h2>{index + 1}</h2>
                     <h3>{list.todo}</h3>
                     <h4>{list.completed ? 'Completed' : 'Pending'}</h4>
                   </li>
-                }
-              )}
+                )
+              }
             </ul>
             :
             null

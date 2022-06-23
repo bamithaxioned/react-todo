@@ -15,13 +15,15 @@ const TodoLists = ({lists, removeTodos, editTodos, completedTodos}) => {
                 <h5>Completed</h5>
               </li>
               {lists.map((list, index) => 
-                <li key={index + 1} className='todolists'>
+                {
+                  return <li key={index + 1} className='todolists'>
                   <h2>{index + 1}</h2>
                   <h3>{list.todo}</h3>
                   <h3><a href="#FIXME" title='Edit' className='edit-btn' onClick={e => editTodos(list.id)}>Edit</a></h3>
                   <h3><a href="#FIXME" title='Remove' className='delete-btn' onClick={e => removeTodos(list.id)}>Remove</a></h3>
                   <h4><input type="checkbox" defaultChecked={list.completed} onClick={e => completedTodos(list.id)} /></h4>
                 </li>
+                }
               )}
             </ul>
             :

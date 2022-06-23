@@ -52,6 +52,7 @@ const Home = () => {
   // Completed Todo
   const handleCompleted = (id) => {
     // check if update mode is on
+    console.log(id);
     if(submitBtn.btnIsActive) {
       alert('Please completed the updation process');
     } else {
