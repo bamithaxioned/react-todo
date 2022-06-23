@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import TodoLists from '../components/TodoLists';
+import PropTypes from 'prop-types';
 
 const List = ({completed}) => {
   const localStorageList = JSON.parse(localStorage.getItem('rc-todo-list')) || [];
   const [list, setList] = useState(localStorageList);
-  console.log(list);
-  console.log(completed);
   
   return (
     <>
@@ -13,14 +11,14 @@ const List = ({completed}) => {
         <div className="wrapper">
           <h2 className='center'>View Todo List</h2>
           {localStorageList.length > 0 ?
-            <ul className='todo-list-containers m-auto' data-completed={completed}>
+            <ul className='todo-list-containers m-auto'>
               <li key='0' className='todolists'>
                 <h2>Id</h2>
                 <h3>Task Name</h3>
-                <h5>Status</h5>
+                {!completed ? <h5>Status</h5> : null}
               </li>
               {localStorageList.map((list, index) => 
-                { completed ?
+                { return (completed && list.completed) ?
                   <li key={index + 1} className='todolists'>
                     <h2>{index + 1}</h2>
                     <h3>{list.todo}</h3>
@@ -43,4 +41,4 @@ const List = ({completed}) => {
   )
 }
 
-export default List
+export default List;
